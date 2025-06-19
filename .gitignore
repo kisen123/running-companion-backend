@@ -1,0 +1,5 @@
+# Ignoring the virtual environment
+/APIPythonEnvironment
+
+# Ignoring the .env file
+.env

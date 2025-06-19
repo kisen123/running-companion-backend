@@ -1,0 +1,47 @@
+[
+    {
+        "training_data": {
+            "features": {
+                "temperature": 21,
+                "weather": "cloudy",
+                "wind_speed": 4,
+                "wind_gust": 6,
+                "downpour_in_mm_min": 0.3,
+                "down_pour_in_mm_max": 2.1,
+                "type_of_session": "easy_run"
+            },
+            "labels": {
+                "hat": null,
+                "upper_body": null,
+                "leggings": "bratsberg_pants",
+                "shoes": "brooks_ghost_14",
+                "gloves": null,
+                "snood": null,
+                "running_jacket": null
+            }
+        }
+    },
+        {
+        "training_data": {
+            "features": {
+                "temperature": 4,
+                "weather": "sunny",
+                "wind_speed": 4,
+                "wind_gust": 6,
+                "downpour_in_mm_min": 0.0,
+                "down_pour_in_mm_max": 0.0,
+                "type_of_session": "interval_run_400m"
+            },
+            "labels": {
+                "hat": "running_cap",
+                "upper_body": "gray_long_sleeve",
+                "leggings": "nike_tights",
+                "shoes": "vaporfly_next_2",
+                "gloves": "black_running_gloves",
+                "snood": null,
+                "running_jacket": null
+            }
+        }
+    }
+
+]
