@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, url_for
 
 import os
 import json
@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'))
 
 @app.route("/get-user/<user_id>", methods=['GET'])
 def get_user(user_id):
@@ -28,7 +28,34 @@ def create_user():
 
 
 
-@app.route("/training_data", methods=['POST'])
+@app.route("/api/images/<category>", methods=['GET'])
+def get_images_per_category(category):
+    base_dir = os.path.join(app.static_folder, 'images', category)
+
+    print(base_dir)
+
+    if not os.path.isdir(base_dir):
+        return jsonify({"error": "Category not found"}), 404
+    
+
+    image_files = [f for f in os.listdir(base_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+
+    data = []
+
+    for i, filename in enumerate(image_files):
+        image_url = url_for('static', filename=f'images/{category}/{filename}')
+
+        data.append({
+            "id": str(i + 1),
+            "uri": f'http://{os.getenv("computer_LAN_IP")}:{os.getenv("host_post")}' + image_url
+        })
+
+    print(jsonify(data).data)
+    return jsonify(data), 200
+
+
+
+@app.route("/api/training_data", methods=['POST'])
 def update_training_data():
     message = ""
     data = request.get_json()
