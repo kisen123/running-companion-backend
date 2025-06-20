@@ -28,11 +28,31 @@ def create_user():
 
 
 
+@app.route("/api/images/categories", methods=['GET'])
+def get_image_categories():
+    base_dir = os.path.join(app.static_folder, 'images')
+
+    if not os.path.isdir(base_dir):
+        return jsonify({"error": "Image folders not found"}), 404
+
+    image_categories = [os.path.basename(category) for category in os.listdir(base_dir)]
+
+    data = []
+
+    for i, image_category in enumerate(image_categories):
+        data.append({
+            "category_id": str(i + 1),
+            "image_category": image_category
+        })
+
+    return jsonify(data), 200
+
+
+
+
 @app.route("/api/images/<category>", methods=['GET'])
 def get_images_per_category(category):
     base_dir = os.path.join(app.static_folder, 'images', category)
-
-    print(base_dir)
 
     if not os.path.isdir(base_dir):
         return jsonify({"error": "Category not found"}), 404
@@ -47,7 +67,7 @@ def get_images_per_category(category):
 
         data.append({
             "id": str(i + 1),
-            "uri": f'http://{os.getenv("computer_LAN_IP")}:{os.getenv("host_post")}' + image_url
+            "uri": f'http://{os.getenv("computer_LAN_IP")}:{os.getenv("host_port")}' + image_url
         })
 
     print(jsonify(data).data)
@@ -95,4 +115,4 @@ def update_training_data():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host=os.getenv("computer_LAN_IP"), port=os.getenv("host_post"))  # Use environment variables for IP and port
+    app.run(debug=True, host=os.getenv("computer_LAN_IP"), port=os.getenv("host_port"))  # Use environment variables for IP and port

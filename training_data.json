@@ -306,5 +306,59 @@
         "Upper body": "2",
         "Leggings": "3",
         "Socks": null
+    },
+    {
+        "Hats": "8",
+        "Upper body": "1",
+        "Leggings": "4",
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "8",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
+    },
+    {
+        "Hats": "7",
+        "Upper body": "2",
+        "Leggings": null,
+        "Socks": null
     }
 ]
