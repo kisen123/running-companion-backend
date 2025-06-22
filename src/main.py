@@ -1,10 +1,19 @@
 from flask import Flask, request, jsonify, url_for
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+import numpy as np
+import joblib
 
 import os
 import json
 from dotenv import load_dotenv
 
 load_dotenv()
+
+MODEL_DIR = "trained_models"
+if not os.path.exists(MODEL_DIR):
+    os.makedirs(MODEL_DIR)
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'static'))
 
@@ -132,7 +141,109 @@ def update_training_data():
 
 
 
+@app.route("/api/inference_model", methods=['POST'])
+def inference_ml_model():
+    if not os.path.exists(MODEL_DIR):
+        return jsonify({"error": "No trained models found."}), 404
 
+    features = request.get_json()
+    if not features:
+        return jsonify({"error": "No features provided."}), 400
+
+    # Ensure the features are in the correct order (same as during training)
+    # You may want to store feature_names during training for robustness
+    # For now, we assume the order is the same as in training_data[0]["features"].keys()
+    with open("training_data.json", "r") as file:
+        raw_data = json.load(file)
+    training_data = raw_data.get("training_data", [])
+
+    if not training_data:
+        return jsonify({"error": "No valid training data available."}), 400
+    feature_names = list(training_data[0]["features"].keys())
+    X_input = [features['weather'].get(k, None) for k in feature_names]
+
+    predictions = {}
+    for label in [obj['image_category'] for obj in features['clothesCategories']]:
+        try:
+            clf = joblib.load(os.path.join(MODEL_DIR, f"{label}_rf.joblib"))
+            le = joblib.load(os.path.join(MODEL_DIR, f"{label}_le.joblib"))
+            pre = joblib.load(os.path.join(MODEL_DIR, f"{label}_pre.joblib"))
+
+            X_trans = pre.transform([X_input])
+            y_pred = clf.predict(X_trans)
+            y_pred_label = le.inverse_transform(y_pred)
+            predictions[label] = y_pred_label[0]
+        except Exception as e:
+            predictions[label] = f"Error: {str(e)}"
+
+    return jsonify({"predictions": predictions}), 200
+
+
+@app.route("/api/train_model", methods=['GET'])
+def train_ml_model():
+    
+    # Load training data
+    if not os.path.exists("training_data.json"):
+        return jsonify({"error": "No training data found."}), 404
+
+    with open("training_data.json", "r") as file:
+        raw_data = json.load(file)
+
+    # Flatten the data structure
+    training_data = raw_data.get("training_data", [])
+
+
+    if not training_data:
+        return jsonify({"error": "No valid training data available."}), 400
+
+    X_raw = [list(entry["features"].values()) for entry in training_data]
+
+    # Identify categorical columns (assume str type is categorical)
+    categorical_indices = [i for i, v in enumerate(X_raw[0]) if isinstance(v, str)]
+    numeric_indices = [i for i, v in enumerate(X_raw[0]) if not isinstance(v, str)]
+
+    # Prepare column transformer
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_indices),
+            ('num', 'passthrough', numeric_indices)
+        ]
+    )
+
+    predictions = {}
+    label_keys = set(training_data[0]["labels"].keys())
+    
+    for label_key in label_keys:
+        y = [str(entry["labels"].get(label_key)) for entry in training_data]  # Convert None to "None" string
+
+
+        # No need to filter out None labels now
+        X_filtered = X_raw
+        y_filtered = y
+
+        # Encode labels if they are strings
+        le = LabelEncoder()
+        y_encoded = le.fit_transform(y_filtered)
+
+        # Transform features
+        X_transformed = preprocessor.fit_transform(X_filtered)
+
+        clf = RandomForestClassifier(n_estimators=100, random_state=42)
+        clf.fit(X_transformed, y_encoded)
+
+        # Save model, label encoder, and preprocessor for this label
+        joblib.dump(clf, os.path.join(MODEL_DIR, f"{label_key}_rf.joblib"))
+        joblib.dump(le, os.path.join(MODEL_DIR, f"{label_key}_le.joblib"))
+        joblib.dump(preprocessor, os.path.join(MODEL_DIR, f"{label_key}_pre.joblib"))
+
+        # Predicting on the training set (for demonstration purposes)
+        y_pred = clf.predict(X_transformed)
+
+        # Decode predictions back to original labels
+        y_pred_labels = le.inverse_transform(y_pred)
+        predictions[label_key] = y_pred_labels.tolist()
+
+    return jsonify({"predictions": predictions}), 200
 
 
 if __name__ == '__main__':

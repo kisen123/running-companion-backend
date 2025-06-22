@@ -3,3 +3,8 @@
 
 # Ignoring the .env file
 .env
+
+# Ignoring the pycache
+src/__pycache__
+
+.vscode

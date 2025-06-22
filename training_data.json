@@ -2,62 +2,92 @@
     "training_data": [
         {
             "features": {
-                "temperature": 25,
+                "temperature": 0,
+                "weather": "Cloudy",
+                "wind_speed": 6,
+                "wind_gust": 8,
+                "type_of_session": "Intervals"
+            },
+            "labels": {
+                "Gloves": "0",
+                "Hats": "2",
+                "Leggings": "16",
+                "Running jackets": null,
+                "Shoes": "22",
+                "Snoods": null,
+                "Upper bodies": "30"
+            }
+        },
+        {
+            "features": {
+                "temperature": 4,
+                "weather": "Cloudy",
+                "wind_speed": 1,
+                "wind_gust": 3,
+                "type_of_session": "Intervals"
+            },
+            "labels": {
+                "Gloves": "0",
+                "Hats": null,
+                "Leggings": "12",
+                "Running jackets": null,
+                "Shoes": "22",
+                "Snoods": null,
+                "Upper bodies": "30"
+            }
+        },
+        {
+            "features": {
+                "temperature": -2,
+                "weather": "Fog",
+                "wind_speed": 7,
+                "wind_gust": 7,
+                "type_of_session": "Easy Run"
+            },
+            "labels": {
+                "Gloves": "0",
+                "Hats": "2",
+                "Leggings": null,
+                "Running jackets": "19",
+                "Shoes": "21",
+                "Snoods": null,
+                "Upper bodies": "30"
+            }
+        },
+        {
+            "features": {
+                "temperature": -8,
                 "weather": "Partly Cloudy",
-                "wind_speed": 2,
+                "wind_speed": 6,
                 "wind_gust": 11,
                 "type_of_session": "Easy Run"
             },
             "labels": {
-                "gloves": null,
-                "hats": null,
-                "leggings": null,
-                "running_jackets": null,
-                "shoes": null,
-                "snoods": null,
-                "upper_bodies": null,
-                "Gloves": "0",
-                "Hats": "3"
-            }
-        },
-        {
-            "features": {
-                "temperature": 7,
-                "weather": "Fog",
-                "wind_speed": 9,
-                "wind_gust": 10,
-                "type_of_session": "Long Run"
-            },
-            "labels": {
-                "gloves": null,
-                "hats": null,
-                "leggings": null,
-                "running_jackets": null,
-                "shoes": null,
-                "snoods": null,
-                "upper_bodies": null,
                 "Gloves": "1",
-                "Hats": "2"
+                "Hats": "2",
+                "Leggings": "15",
+                "Running jackets": "19",
+                "Shoes": "21",
+                "Snoods": "24",
+                "Upper bodies": "31"
             }
         },
         {
             "features": {
-                "temperature": 11,
-                "weather": "Cloudy",
+                "temperature": 8,
+                "weather": "Clear",
                 "wind_speed": 4,
-                "wind_gust": 7,
-                "type_of_session": "Long Run"
+                "wind_gust": 8,
+                "type_of_session": "Intervals"
             },
             "labels": {
-                "gloves": null,
-                "hats": null,
-                "leggings": null,
-                "running_jackets": null,
-                "shoes": null,
-                "snoods": null,
-                "upper_bodies": null,
-                "Leggings": "17",
-                "Hats": "2"
+                "Gloves": null,
+                "Hats": "5",
+                "Leggings": "12",
+                "Running jackets": null,
+                "Shoes": "22",
+                "Snoods": null,
+                "Upper bodies": "33"
             }
         }
     ]
