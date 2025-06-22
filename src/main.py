@@ -65,7 +65,6 @@ def get_image_categories():
             "images": category_image_objects
         })
 
-    print(data)
 
 
     return jsonify(data), 200
@@ -106,7 +105,7 @@ def update_training_data():
     training_data_exists = os.path.exists("training_data.json")
     if not training_data_exists:
         with open("training_data.json", "w") as file:
-            json.dump({}, file)
+            json.dump({"training_data": []}, file)
             message += "Training data file created, as it did not previously exist.\t"
 
     # Loading the existing training data
@@ -117,7 +116,7 @@ def update_training_data():
     # Updating the training data with the new data
     if "training_data" in data:
         try:
-            training_data.append(data["training_data"])
+            training_data["training_data"].append(data["training_data"])
             message += "Training data updated successfully.\t"
 
             # Saving the updated training data back to the file
@@ -137,4 +136,4 @@ def update_training_data():
 
 
 if __name__ == '__main__':
-    app.run(host=os.getenv("computer_LAN_IP"), port=os.getenv("host_port"))  # Use environment variables for IP and port
+    app.run(debug=True, host=os.getenv("computer_LAN_IP"), port=os.getenv("host_port"))  # Use environment variables for IP and port
