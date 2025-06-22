@@ -2,9 +2,9 @@
     "training_data": [
         {
             "features": {
-                "temperature": -7,
-                "weather": "Clear",
-                "wind_speed": 1,
+                "temperature": 25,
+                "weather": "Partly Cloudy",
+                "wind_speed": 2,
                 "wind_gust": 11,
                 "type_of_session": "Easy Run"
             },
@@ -18,6 +18,46 @@
                 "upper_bodies": null,
                 "Gloves": "0",
                 "Hats": "3"
+            }
+        },
+        {
+            "features": {
+                "temperature": 7,
+                "weather": "Fog",
+                "wind_speed": 9,
+                "wind_gust": 10,
+                "type_of_session": "Long Run"
+            },
+            "labels": {
+                "gloves": null,
+                "hats": null,
+                "leggings": null,
+                "running_jackets": null,
+                "shoes": null,
+                "snoods": null,
+                "upper_bodies": null,
+                "Gloves": "1",
+                "Hats": "2"
+            }
+        },
+        {
+            "features": {
+                "temperature": 11,
+                "weather": "Cloudy",
+                "wind_speed": 4,
+                "wind_gust": 7,
+                "type_of_session": "Long Run"
+            },
+            "labels": {
+                "gloves": null,
+                "hats": null,
+                "leggings": null,
+                "running_jackets": null,
+                "shoes": null,
+                "snoods": null,
+                "upper_bodies": null,
+                "Leggings": "17",
+                "Hats": "2"
             }
         }
     ]
